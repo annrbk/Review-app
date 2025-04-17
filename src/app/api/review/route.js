@@ -3,13 +3,13 @@ import { NextResponse } from "next/server";
 
 export async function POST(request) {
   try {
-    const { name, email, message } = await request.json();
+    const { name, email, product, message, image } = await request.json();
 
     const db = await createConnection();
 
     await db.execute(
-      "INSERT INTO comments (name, email, comment) VALUES (?, ?, ?)",
-      [name, email, message]
+      "INSERT INTO comments (name, email, product, comment, image) VALUES (?, ?, ?, ?, ?)",
+      [name, email, product, message, image]
     );
 
     return NextResponse(JSON.stringify({ message: "Review saved" }), {

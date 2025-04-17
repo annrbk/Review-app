@@ -4,28 +4,42 @@ import { useFormik } from "formik";
 import { useState } from "react";
 import * as Yup from "yup";
 import Modal from "../components/Modal";
+import { useRouter } from "next/navigation";
+import CloudinaryUploader from "@/components/CloudinaryUploader";
 
 export default function ReviewForm() {
   const [isSubmitted, SetIsSubmitted] = useState(false);
+  const [resource, setResource] = useState();
+  const router = useRouter();
 
   const formik = useFormik({
     initialValues: {
       name: "",
       email: "",
+      product: "",
       message: "",
+      image: "",
     },
     validationSchema: Yup.object({
       name: Yup.string()
         .max(15, "Must be 15 characters or less")
         .required("Required"),
       email: Yup.string().email("Invalid email address").required("Required"),
-      message: Yup.string().min(3, "Must be min 3 characters or more"),
+      product: Yup.string()
+        .min(3, "Must be min 3 characters or more")
+        .required("Required"),
+      message: Yup.string()
+        .min(3, "Must be min 3 characters or more")
+        .required("Required"),
+      image: Yup.string(),
     }),
     onSubmit: async (values, { resetForm }) => {
       const request = {
         name: values.name,
         email: values.email,
+        product: values.product,
         message: values.message,
+        image: resource,
       };
       try {
         const response = await fetch("/api/review", {
@@ -50,7 +64,7 @@ export default function ReviewForm() {
         <Modal onClose={() => SetIsSubmitted(false)} />
       ) : (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-          <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
+          <div className="w-full max-w-lg p-8 bg-white rounded-lg shadow-lg">
             <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">
               Feedback form
             </h1>
@@ -103,6 +117,30 @@ export default function ReviewForm() {
               </div>
               <div>
                 <label
+                  htmlFor="product"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Product name
+                </label>
+                <input
+                  type="text"
+                  id="product"
+                  name="product"
+                  className="mt-2 p-4 w-full border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 transition-all duration-300 ease-in-out hover:border-blue-500"
+                  placeholder="Enter your name"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.product}
+                />
+
+                {formik.touched.product && formik.errors.product ? (
+                  <div className="text-red-500 text-sm mt-2">
+                    {formik.errors.product}
+                  </div>
+                ) : null}
+              </div>
+              <div>
+                <label
                   htmlFor="message"
                   className="block text-sm font-medium text-gray-700"
                 >
@@ -118,6 +156,7 @@ export default function ReviewForm() {
                   onBlur={formik.handleBlur}
                   value={formik.values.message}
                 />
+                <CloudinaryUploader setResource={setResource} />
                 {formik.touched.message && formik.errors.message ? (
                   <div className="text-red-500 text-sm mt-2">
                     {formik.errors.message}
@@ -133,6 +172,13 @@ export default function ReviewForm() {
                 </button>
               </div>
             </form>
+            <button
+              type="button"
+              className="mt-4 py-2 px-6 bg-gray-200 text-gray-800 font-semibold rounded-md hover:bg-gray-300 transition duration-300"
+              onClick={() => router.push("/reviews")}
+            >
+              Go to all reviews
+            </button>
           </div>
         </div>
       )}

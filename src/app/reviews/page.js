@@ -18,8 +18,21 @@ export default async function Reviews() {
               <p className="text-lg font-semibold text-gray-800 mb-1">
                 {comment.name}
               </p>
+
               <p className="text-sm text-gray-500 mb-3">{comment.email}</p>
-              <p className="text-gray-700 break-words">{comment.comment}</p>
+              <p className="text-lg font-semibold text-gray-800 mb-1">
+                {comment.product}
+              </p>
+              <div>
+                <p className="text-gray-700 break-words">{comment.comment}</p>
+                {comment.image && (
+                  <img
+                    className="w-[30%]"
+                    src={comment.image}
+                    alt="Uploaded image"
+                  />
+                )}
+              </div>
             </div>
           ))}
         </div>
