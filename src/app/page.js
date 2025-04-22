@@ -156,12 +156,12 @@ export default function ReviewForm() {
                   onBlur={formik.handleBlur}
                   value={formik.values.message}
                 />
-                <CloudinaryUploader setResource={setResource} />
                 {formik.touched.message && formik.errors.message ? (
                   <div className="text-red-500 text-sm mt-2">
                     {formik.errors.message}
                   </div>
                 ) : null}
+                <CloudinaryUploader setResource={setResource} />
               </div>
               <div>
                 <button

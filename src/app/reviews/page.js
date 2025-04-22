@@ -1,4 +1,5 @@
 import { getReviews } from "@/lib/reviewsService";
+import Link from "next/link";
 
 export default async function Reviews() {
   const data = await getReviews();
@@ -11,9 +12,10 @@ export default async function Reviews() {
         </h1>
         <div className="space-y-4">
           {data.map((comment) => (
-            <div
+            <Link
+              href={`/reviews/${comment.id}`}
               key={comment.id}
-              className="p-6 bg-white rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300"
+              className="block p-6 bg-white rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300"
             >
               <p className="text-lg font-semibold text-gray-800 mb-1">
                 {comment.name}
@@ -24,7 +26,7 @@ export default async function Reviews() {
                 {comment.product}
               </p>
               <div>
-                <p className="text-gray-700 break-words">{comment.comment}</p>
+                <p className="text-gray-700 line-clamp-3">{comment.comment}</p>
                 {comment.image && (
                   <img
                     className="w-[30%]"
@@ -33,7 +35,7 @@ export default async function Reviews() {
                   />
                 )}
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
