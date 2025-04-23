@@ -9,7 +9,7 @@ export async function POST(request) {
 
     await db.execute(
       "INSERT INTO comments (name, email, product, comment, image) VALUES (?, ?, ?, ?, ?)",
-      [name, email, product, message, image]
+      [name, email, product, message, image ?? null]
     );
 
     return NextResponse(JSON.stringify({ message: "Review saved" }), {

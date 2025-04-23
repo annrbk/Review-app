@@ -1,5 +1,5 @@
 import { getReviews } from "@/lib/reviewsService";
-import Link from "next/link";
+import PaginationContent from "@/components/Pagination/PaginatedContent";
 
 export default async function Reviews() {
   const data = await getReviews();
@@ -10,34 +10,7 @@ export default async function Reviews() {
         <h1 className="text-3xl font-semibold text-center text-gray-800">
           All reviews
         </h1>
-        <div className="space-y-4">
-          {data.map((comment) => (
-            <Link
-              href={`/reviews/${comment.id}`}
-              key={comment.id}
-              className="block p-6 bg-white rounded-lg shadow-md border border-gray-200 hover:shadow-lg transition-shadow duration-300"
-            >
-              <p className="text-lg font-semibold text-gray-800 mb-1">
-                {comment.name}
-              </p>
-
-              <p className="text-sm text-gray-500 mb-3">{comment.email}</p>
-              <p className="text-lg font-semibold text-gray-800 mb-1">
-                {comment.product}
-              </p>
-              <div>
-                <p className="text-gray-700 line-clamp-3">{comment.comment}</p>
-                {comment.image && (
-                  <img
-                    className="w-[30%]"
-                    src={comment.image}
-                    alt="Uploaded image"
-                  />
-                )}
-              </div>
-            </Link>
-          ))}
-        </div>
+        <PaginationContent data={data} />
       </div>
     </div>
   );
