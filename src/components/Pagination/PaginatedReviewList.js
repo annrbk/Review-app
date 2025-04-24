@@ -19,13 +19,6 @@ export default function PaginatedReviewList({ reviews }) {
           </p>
           <div>
             <p className="text-gray-700 line-clamp-3">{comment.comment}</p>
-            {comment.image && (
-              <img
-                className="w-[30%]"
-                src={comment.image}
-                alt="Uploaded image"
-              />
-            )}
           </div>
         </Link>
       ))}

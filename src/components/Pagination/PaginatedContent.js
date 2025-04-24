@@ -3,6 +3,7 @@
 import PaginationButton from "./PaginationButton";
 import PaginatedReviewList from "./PaginatedReviewList";
 import { usePagination } from "@/hooks/usePagination";
+import BackButton from "../BackButton";
 
 export default function PaginatedContent({ data }) {
   const { totalPages, reviews, handlePageChange, currentPage } =
@@ -10,6 +11,7 @@ export default function PaginatedContent({ data }) {
 
   return (
     <>
+      <BackButton />
       <PaginatedReviewList reviews={reviews} />
       <div className="mt-6 flex items-center justify-between flex-wrap gap-4">
         <div className="text-sm text-gray-600">

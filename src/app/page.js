@@ -64,7 +64,7 @@ export default function ReviewForm() {
         <Modal onClose={() => SetIsSubmitted(false)} />
       ) : (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-          <div className="w-full max-w-lg p-8 bg-white rounded-lg shadow-lg">
+          <div className="w-full max-w-2xl p-8 bg-white rounded-lg shadow-lg">
             <h1 className="text-3xl font-semibold text-center text-gray-800 mb-6">
               Feedback form
             </h1>
@@ -172,13 +172,6 @@ export default function ReviewForm() {
                 </button>
               </div>
             </form>
-            <button
-              type="button"
-              className="mt-4 py-2 px-6 bg-gray-200 text-gray-800 font-semibold rounded-md hover:bg-gray-300 transition duration-300"
-              onClick={() => router.push("/reviews")}
-            >
-              Go to all reviews
-            </button>
           </div>
         </div>
       )}

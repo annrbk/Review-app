@@ -14,7 +14,7 @@ export default function CloudinaryUploader({ setResource }) {
       }}
       uploadPreset={cloudPresetName}
       onSuccess={(result) => {
-        setResource(result?.info.secure_url);
+        setResource((prev) => [...(prev || []), result?.info.secure_url]);
       }}
       onClose={() => {}}
     >
