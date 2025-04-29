@@ -21,11 +21,18 @@ export async function POST(request) {
   }
 }
 
-export async function GET() {
+export async function GET(req) {
   try {
     const db = await createConnection();
-    const sql = "SELECT * FROM comments";
-    const [reviews] = await db.query(sql);
+    const query = req.nextUrl.searchParams.get("query") || "";
+    let reviews;
+    if (query) {
+      const sql = "SELECT * FROM comments WHERE product LIKE ?";
+      [reviews] = await db.query(sql, [`%${query}%`]);
+    } else {
+      const sql = "SELECT * FROM comments";
+      [reviews] = await db.query(sql);
+    }
     return NextResponse.json(reviews);
   } catch (error) {
     console.error("Error receiving reviews", error);

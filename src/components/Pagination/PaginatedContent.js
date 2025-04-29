@@ -4,15 +4,27 @@ import PaginationButton from "./PaginationButton";
 import PaginatedReviewList from "./PaginatedReviewList";
 import { usePagination } from "@/hooks/usePagination";
 import BackButton from "../BackButton";
+import NoResult from "../Search/NoResult";
+import Search from "../Search/Search";
 
-export default function PaginatedContent({ data }) {
+export default function PaginatedContent({ data, searchData, query }) {
   const { totalPages, reviews, handlePageChange, currentPage } =
     usePagination(data);
+
+  const showNoResult = query && searchData.length === 0;
+  const showSearchResult = query && searchData.length > 0;
 
   return (
     <>
       <BackButton />
-      <PaginatedReviewList reviews={reviews} />
+      <Search placeholder="Search" />
+      {showNoResult ? (
+        <NoResult />
+      ) : (
+        <PaginatedReviewList
+          reviews={showSearchResult ? searchData : reviews}
+        />
+      )}
       <div className="mt-6 flex items-center justify-between flex-wrap gap-4">
         <div className="text-sm text-gray-600">
           Page {currentPage} of {totalPages}
