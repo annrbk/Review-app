@@ -1,15 +1,14 @@
-import { getReviews, searchReviews } from "@/lib/reviewsService";
 import PaginationContent from "@/components/Pagination/PaginatedContent";
+import { fetchReviewsPages } from "@/lib/data";
 
 export default async function Reviews({ searchParams }) {
   const query = searchParams?.query || "";
+  const currentPage = Number(searchParams?.page) || 1;
 
-  let data = await getReviews();
-  let searchData = [];
-
-  if (query) {
-    searchData = await searchReviews({ query });
-  }
+  const { reviews: data, totalPages } = await fetchReviewsPages(
+    query,
+    currentPage
+  );
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -19,9 +18,10 @@ export default async function Reviews({ searchParams }) {
         </h1>
         <PaginationContent
           data={data}
-          searchData={searchData}
           searchParams={searchParams}
           query={query}
+          currentPage={currentPage}
+          totalPages={totalPages}
         />
       </div>
     </div>

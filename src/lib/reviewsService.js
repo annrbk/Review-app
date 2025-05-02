@@ -23,11 +23,3 @@ export async function getReviewById(id) {
     console.error("Error fetching review by Id:", error);
   }
 }
-
-export async function searchReviews({ query }) {
-  const allReviews = await getReviews();
-  const lowerQuery = query.toLowerCase();
-  return allReviews.filter((review) =>
-    (review.product || "").toLowerCase().includes(lowerQuery)
-  );
-}

@@ -21,33 +21,34 @@ export default async function reviewPage({ params }) {
       </div>
       <div className="flex justify-center">
         <div className="bg-white p-6 rounded-lg shadow-md w-full max-w-4xl">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-4">
+          <h3 className="text-2xl font-semibold text-gray-800 mb-2">
             {comment.product}
           </h3>
-          <div className="space-y-4">
-            <div>
-              <p className="text-gray-600">{comment.name}</p>
-            </div>
-            <div>
-              <p className="text-gray-600">{comment.email}</p>
-            </div>
-            <div>
-              <p className="text-gray-800">{comment.comment}</p>
-            </div>
-            {normalizedImages.length > 0 && (
-              <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                {normalizedImages.map((url) => (
-                  <div key={url} className="w-full">
-                    <img
-                      src={url}
-                      alt="Uploaded image"
-                      className="rounded-md w-full h-64 object-cover"
-                    />
-                  </div>
-                ))}
-              </div>
-            )}
+
+          <div>
+            <p className="text-gray-600 ">{comment.name}</p>
           </div>
+          <div>
+            <p className="text-gray-600">
+              {new Date(comment.created_at).toLocaleDateString("en-En")}
+            </p>
+          </div>
+          <div>
+            <p className="text-gray-800 mt-6">{comment.comment}</p>
+          </div>
+          {normalizedImages.length > 0 && (
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+              {normalizedImages.map((url) => (
+                <div key={url} className="w-full">
+                  <img
+                    src={url}
+                    alt="Uploaded image"
+                    className="rounded-md w-full h-64 object-cover"
+                  />
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

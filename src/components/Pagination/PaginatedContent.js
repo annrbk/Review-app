@@ -2,28 +2,39 @@
 
 import PaginationButton from "./PaginationButton";
 import PaginatedReviewList from "./PaginatedReviewList";
-import { usePagination } from "@/hooks/usePagination";
 import BackButton from "../BackButton";
 import NoResult from "../Search/NoResult";
 import Search from "../Search/Search";
+import EmptyState from "../EmptyState";
+import { usePathname, useSearchParams } from "next/navigation";
 
-export default function PaginatedContent({ data, searchData, query }) {
-  const { totalPages, reviews, handlePageChange, currentPage } =
-    usePagination(data);
+export default function PaginatedContent({
+  data,
+  query,
+  totalPages,
+  currentPage,
+}) {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
 
-  const showNoResult = query && searchData.length === 0;
-  const showSearchResult = query && searchData.length > 0;
+  const createPageURL = (pageNumber) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", pageNumber.toString());
+    return `${pathname}?${params.toString()}`;
+  };
 
   return (
     <>
       <BackButton />
       <Search placeholder="Search" />
-      {showNoResult ? (
-        <NoResult />
+      {data.length === 0 ? (
+        query ? (
+          <NoResult />
+        ) : (
+          <EmptyState />
+        )
       ) : (
-        <PaginatedReviewList
-          reviews={showSearchResult ? searchData : reviews}
-        />
+        <PaginatedReviewList reviews={data} />
       )}
       <div className="mt-6 flex items-center justify-between flex-wrap gap-4">
         <div className="text-sm text-gray-600">
@@ -35,8 +46,8 @@ export default function PaginatedContent({ data, searchData, query }) {
               <PaginationButton
                 key={pageNumber}
                 currentPage={currentPage}
-                handlePageChange={handlePageChange}
                 pageNumber={pageNumber}
+                createPageURL={createPageURL}
               />
             )
           )}
